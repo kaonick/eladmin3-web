@@ -8,6 +8,18 @@
 
 - Preview: <https://vite-starter.element-plus.org>
 
+## Todo List:
+
+- [ ] Start up
+    - [x] init
+    - [x] route,store
+    - [x] login:jwt token handle, 
+    - [ ] console:menu build,
+- [ ] System > role base auth control
+- [ ] System > menu editor
+- [ ] System > user editor
+
+
 ## Notes:
 
 > 20220908 : start....

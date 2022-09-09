@@ -1,20 +1,23 @@
-import { createApp } from "vue";
-import App from "./App.vue";
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import App from './App.vue'
 
-// import "~/styles/element/index.scss";
+// import { router } from './router'
+import router from './router'
+import store from './store'
 
-// import ElementPlus from "element-plus";
-// import all element css, uncommented next line
-// import "element-plus/dist/index.css";
+import Cookies from 'js-cookie'
 
-// or use cdn, uncomment cdn link in `index.html`
+// Install the store instance as a plugin
 
-import "~/styles/index.scss";
+// import "~/styles/index.scss";
 import 'uno.css'
-
-// If you want to use ElMessage, import it.
-import "element-plus/theme-chalk/src/message.scss"
-
-const app = createApp(App);
-// app.use(ElementPlus);
-app.mount("#app");
+// createApp(App).use(router).mount('#app')
+const app = createApp(App)
+app.use(router)
+app.use(store)
+app.use(ElementPlus,{
+    size: Cookies.get('size') || 'small' // set element-ui default size
+  })
+app.mount('#app')
