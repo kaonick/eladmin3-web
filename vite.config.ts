@@ -4,6 +4,11 @@ import vue from '@vitejs/plugin-vue'
 
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import AutoImport from 'unplugin-auto-import/vite'
+
+
+
+
 
 import Unocss from 'unocss/vite'
 import {
@@ -18,6 +23,7 @@ const pathSrc = path.resolve(__dirname, 'src')
 
 // https://vitejs.dev/config/
 export default defineConfig({
+
   resolve: {
     alias: {
       '~/': `${pathSrc}/`,
@@ -32,6 +38,12 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+
+
     Components({
       // allow auto load markdown components under `./src/components/`
       extensions: ['vue', 'md'],

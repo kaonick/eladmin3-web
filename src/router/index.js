@@ -7,23 +7,81 @@ import Config from '../settings'
 import { getToken } from '../utils/auth' // getToken from cookie
 import { buildMenus } from '../api/system/menu'
 import store from '~/store'
-// import { filterAsyncRouter } from '~/store/modules/permission'
+import { filterAsyncRouter } from '~/store/modules/permission'
 
 import Home from "~/views/Home.vue";
 import login from "~/views/login.vue";
+import Layout from '~/layout/index.vue'
+
+// export const constantRouterMap = [
+//   {
+//     path: "/",
+//     // name: "home",
+//     component: Home,
+//   },
+//   {
+//     path: "/login",
+//     // name: "login",
+//     component: login,
+//   },
+// ];
 
 export const constantRouterMap = [
-  {
-    path: "/",
-    // name: "home",
-    component: Home,
+  { path: '/login',
+    meta: { title: '登录', noCache: true },
+    component: (resolve) => require(['~/views/login'], resolve),
+    hidden: true
   },
   {
-    path: "/login",
-    // name: "login",
-    component: login,
+    path: '/404',
+    component: (resolve) => require(['~/views/features/404'], resolve),
+    hidden: true
   },
-];
+  {
+    path: '/401',
+    component: (resolve) => require(['~/views/features/401'], resolve),
+    hidden: true
+  },
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path*',
+        component: (resolve) => require(['~/views/features/redirect'], resolve)
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        component: (resolve) => require(['~/views/home'], resolve),
+        name: 'Dashboard',
+        meta: { title: '首页', icon: 'index', affix: true, noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'center',
+        component: (resolve) => require(['~/views/system/user/center'], resolve),
+        name: '个人中心',
+        meta: { title: '个人中心' }
+      }
+    ]
+  }
+]
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -34,6 +92,7 @@ NProgress.configure({ showSpinner: false })// NProgress Configuration
 const whiteList = ['/login']// no redirect whitelist
 
 router.beforeEach((to, from,next) => {
+  console.log('to:'+to.path)
     // do something...
     if (to.meta.title) {
         document.title = to.meta.title + ' - ' + Config.title
@@ -75,6 +134,7 @@ router.beforeEach((to, from,next) => {
 });
 
 export const loadMenus = (next, to) => {
+  console.log('loadMenu')
     buildMenus().then(res => {
       const sdata = JSON.parse(JSON.stringify(res))
       const rdata = JSON.parse(JSON.stringify(res))
@@ -83,7 +143,8 @@ export const loadMenus = (next, to) => {
       rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
   
       store.dispatch('GenerateRoutes', rewriteRoutes).then(() => { // 存储路由
-        router.addRoutes(rewriteRoutes) // 动态添加可访问路由表
+        console.log(rewriteRoutes)
+        router.addRoute(rewriteRoutes) // 动态添加可访问路由表
         next({ ...to, replace: true })
       })
       store.dispatch('SetSidebarRouters', sidebarRoutes)

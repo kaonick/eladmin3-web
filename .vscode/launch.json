@@ -13,7 +13,7 @@
         // }
         "pathMappings": [
             {
-              "url": "file://",
+              "url": "file:///",
               "path": ""
             }]
       }

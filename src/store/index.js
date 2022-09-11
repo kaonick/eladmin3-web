@@ -19,8 +19,9 @@ import getters from './getters'
 //   return modules
 // }, {})
 
-// const modulesFiles = import.meta.globEager("../store/modules/*.js");
-const modulesFiles = import.meta.glob('./modules/*.js')
+const modulesFiles = import.meta.globEager("./modules/*.js");
+// const modulesFiles = import.meta.glob('./modules/*.js')
+
 console.log(modulesFiles)
 
 const modules={}
@@ -32,14 +33,14 @@ for(const key in modulesFiles){
   //   modules[key.replace(/(\.\/modules\/|\.js)/g,'')]=res.default
   // })
 
-    modules[key.replace(/(\.\/modules\/|\.js)/g,'')]= modulesFiles[key]
+    modules[key.replace(/(\.\/modules\/|\.js)/g,'')]= modulesFiles[key].default
 }
 console.log(modules)
-Object.keys(modules).forEach(item=>{
-  modules[item]['namespaced']=true;
-})
-
-console.log(modules)
+// Object.keys(modules).forEach(item=>{
+//   modules[item]['namespaced']=true;
+// })
+// console.log('modules')
+// console.log(modules)
 
 
 const store = createStore({

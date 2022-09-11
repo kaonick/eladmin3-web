@@ -26,9 +26,9 @@
         记住我
       </el-checkbox>
       <el-form-item style="width:100%;">
-        <el-button :loading="loading" size="medium" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+        <el-button :loading="loading" size="small" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
+          <span v-else>登 录 中...</span>   <!--medium-->
         </el-button>
       </el-form-item>
     </el-form>
@@ -138,6 +138,7 @@ export default {
             Cookies.remove('password')
             Cookies.remove('rememberMe')
           }
+          console.log("call Login")
           this.$store.dispatch('Login', user).then(() => {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })

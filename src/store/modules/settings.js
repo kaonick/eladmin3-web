@@ -1,4 +1,5 @@
-import variables from '~/assets/styles/element-variables.scss'
+// import variables from '~/assets/styles/element-variables.scss'
+import variables from 'element-plus/dist/index.css'
 import defaultSettings from '~/settings'
 const { tagsView, fixedHeader, sidebarLogo, showFooter, footerTxt, caseNumber } = defaultSettings
 

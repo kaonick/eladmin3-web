@@ -1,10 +1,16 @@
-import { constantRouterMap } from '~/router/routers'
-import Layout from '~/layout/index'
-import ParentView from '~/components/ParentView'
+
+
+import { constantRouterMap } from '~/router'
+import Layout from '~/layout/index.vue'
+import ParentView from '~/components/ParentView/index.vue'
+
+
+
+
 
 const permission = {
   state: {
-    routers: constantRouterMap,
+    routers: [],//constantRouterMap
     addRouters: [],
     sidebarRouters: []
   },
