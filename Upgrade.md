@@ -1,7 +1,7 @@
 # vue2 to vue3 changelog:
 
 ## upgrade to element-plus
-### el-subment change to el-sub-ment WTF!!!
+### el-submenu change to el-sub-menu WTF!!!
 
 ### vite element-plus install
 > <https://element-plus.gitee.io/en-US/guide/quickstart.html#on-demand-import>
