@@ -27,6 +27,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~/': `${pathSrc}/`,
+      path: "path-browserify",
     },
   },
   css: {
