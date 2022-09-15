@@ -172,3 +172,15 @@ export default defineConfig({
 })
 
 ```
+
+## vue-count-to change to vue3-count-to
+```javascript
+
+npm install vue3-count-to --save
+
+
+// import CountTo from 'vue-count-to'
+change to 
+import { CountTo } from 'vue3-count-to';
+
+```

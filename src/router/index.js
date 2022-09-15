@@ -151,6 +151,7 @@ export const loadMenus = (next, to) => {
 
     store.dispatch("GenerateRoutes", rewriteRoutes).then(() => {
       // 存储路由
+      console.log('rewriteRoutes');
       console.log(rewriteRoutes);
       router.addRoute(rewriteRoutes); // 动态添加可访问路由表
       next({ ...to, replace: true });

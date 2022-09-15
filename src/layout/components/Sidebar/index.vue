@@ -26,6 +26,7 @@ import variables from '~/assets/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
+    // components: { Logo },
   computed: {
     ...mapGetters([
       'sidebarRouters',
