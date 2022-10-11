@@ -1,6 +1,6 @@
 <template>
   <div id="xxx">
-    <p> hahaa </p>
+    <!-- <p> hahaa </p> -->
 
     <!-- <p>
       <router-link to="/">Go Home</router-link>

@@ -12,6 +12,18 @@
         unique-opened
         mode="vertical"
       >
+        <!-- <template #title>
+          <el-icon><location /></el-icon>
+          <span>Navigator One</span>
+        </template>
+        <el-menu-item-group>
+          <template #title><span>Group One</span></template>
+          <el-menu-item index="1-1">item one</el-menu-item>
+          <el-menu-item index="1-2">item two</el-menu-item>
+        </el-menu-item-group> -->
+
+
+
         <sidebar-item v-for="route in sidebarRouters" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
@@ -26,7 +38,6 @@ import variables from '~/assets/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
-    // components: { Logo },
   computed: {
     ...mapGetters([
       'sidebarRouters',

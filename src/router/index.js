@@ -9,10 +9,12 @@ import { buildMenus } from "../api/system/menu";
 import store from "~/store";
 import { filterAsyncRouter } from "~/store/modules/permission";
 
-// import Home from "~/views/Home.vue";
+import HelloWorld from "~/views/HelloWorld.vue";
+import Hello from "~/views/Hello.vue";
+
 // import login from "~/views/login.vue";
 import Layout from "~/layout/index.vue";
-
+import MainView from "~/mainview/index.vue";
 // export const constantRouterMap = [
 //   {
 //     path: "/",
@@ -26,6 +28,41 @@ import Layout from "~/layout/index.vue";
 //   },
 // ];
 
+const mainconsole={
+  path: "/",
+  // component: Layout,
+  component: MainView,
+  redirect: "/dashboard",
+  children: [
+    {
+      path: "dashboard",
+      component: () => import("~/views/home.vue"),
+      name: "Dashboard",
+      meta: { title: "首页", icon: "index", affix: true, noCache: true },
+    },
+    {
+      path: "/home",
+      // name: "home",
+      component: HelloWorld,
+    },
+    {
+      path: "/hello",
+      // name: "login",
+      component: Hello,
+    },
+    {
+      path: "/404",
+      component: () => import("~/views/features/404"),
+      hidden: true,
+    },
+    // {
+    //   path: "/nested/menu2",
+    //   component: () => import("~/views/nested/menu2/index.vue"),
+    //   hidden: true,
+    // },
+
+  ],
+}
 export const constantRouterMap = [
   {
     path: "/login",
@@ -55,19 +92,37 @@ export const constantRouterMap = [
       },
     ],
   },
-  {
-    path: "/",
-    component: Layout,
-    redirect: "/dashboard",
-    children: [
-      {
-        path: "dashboard",
-        component: () => import("~/views/home.vue"),
-        name: "Dashboard",
-        meta: { title: "首页", icon: "index", affix: true, noCache: true },
-      },
-    ],
-  },
+  mainconsole,
+  // {
+  //   path: "/",
+  //   // component: Layout,
+  //   component: MainView,
+  //   redirect: "/dashboard",
+  //   children: [
+  //     {
+  //       path: "dashboard",
+  //       component: () => import("~/views/home.vue"),
+  //       name: "Dashboard",
+  //       meta: { title: "首页", icon: "index", affix: true, noCache: true },
+  //     },
+  //     {
+  //       path: "/home",
+  //       // name: "home",
+  //       component: HelloWorld,
+  //     },
+  //     {
+  //       path: "/hello",
+  //       // name: "login",
+  //       component: Hello,
+  //     },
+  //     // {
+  //     //   path: "/nested/menu2",
+  //     //   component: () => import("~/views/nested/menu2/index.vue"),
+  //     //   hidden: true,
+  //     // },
+
+  //   ],
+  // },
   {
     path: "/user",
     component: Layout,
@@ -94,6 +149,8 @@ const whiteList = ["/login"]; // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   console.log("to:" + to.path);
+  console.log("next:" + next.path);
+
   // do something...
   if (to.meta.title) {
     document.title = to.meta.title + " - " + Config.title;
@@ -143,20 +200,41 @@ router.beforeEach((to, from, next) => {
 export const loadMenus = (next, to) => {
   console.log("loadMenu");
   buildMenus().then((res) => {
+    // console.log('res');
+    // console.log(res);
     const sdata = JSON.parse(JSON.stringify(res));
+    store.dispatch("SetMenu",sdata)
+    // console.log('sdata');
+    // console.log(sdata);
+
     const rdata = JSON.parse(JSON.stringify(res));
-    const sidebarRoutes = filterAsyncRouter(sdata);
+    // const sidebarRoutes = filterAsyncRouter(sdata);
+    // console.log('filterRouteBegin')
     const rewriteRoutes = filterAsyncRouter(rdata, false, true);
-    rewriteRoutes.push({ path: "*", redirect: "/404", hidden: true });
+    // rewriteRoutes.push({ path: "*", redirect: "/404", hidden: true });
 
     store.dispatch("GenerateRoutes", rewriteRoutes).then(() => {
       // 存储路由
-      console.log('rewriteRoutes');
-      console.log(rewriteRoutes);
-      router.addRoute(rewriteRoutes); // 动态添加可访问路由表
+      // console.log('rewriteRoutes');
+      // console.log(rewriteRoutes);
+
+      rewriteRoutes.forEach(item => router.addRoute(item))
+      // router.addRoute(rewriteRoutes); // 动态添加可访问路由表
+
+      // const item={
+      //   path: "/nested/menu2",
+      //   component: () => import("~/views/nested/menu2/index.vue"),
+      //   hidden: true,
+      // }
+      // mainconsole.children.push(rewriteRoutes)
+      // console.log(mainconsole, 'mainconsole')
+
+      // router.addRoute(mainconsole);
+
+      // console.log(router.getRoutes(), 'getRoutes')
       next({ ...to, replace: true });
     });
-    store.dispatch("SetSidebarRouters", sidebarRoutes);
+    // store.dispatch("SetSidebarRouters", sidebarRoutes);
   });
 };
 

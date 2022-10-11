@@ -3,14 +3,14 @@
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+          <MenuItem :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </app-link>
     </template>
 
     <el-sub-menu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
-        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
+        <MenuItem v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
       <sidebar-item
         v-for="child in item.children"
@@ -27,13 +27,13 @@
 <script>
 import path from 'path'
 import { isExternal } from '~/utils/validate'
-import Item from './Item.vue'
+import MenuItem from './MenuItem.vue'
 import AppLink from './Link.vue'
 import FixiOSBug from './FixiOSBug.js'
 
 export default {
   name: 'SidebarItem',
-  components: { Item, AppLink },
+  components: { MenuItem, AppLink },
   mixins: [FixiOSBug],
   props: {
     // route object
@@ -88,6 +88,7 @@ export default {
       if (isExternal(this.basePath)) {
         return this.basePath
       }
+      console.log("resolvePath="+path.resolve(this.basePath, routePath))
       return path.resolve(this.basePath, routePath)
     }
   }

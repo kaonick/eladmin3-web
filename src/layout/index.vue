@@ -3,7 +3,7 @@
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
     <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
+      <div :class="{'fixed-header':fixedHeader}">  
         <navbar />
         <tags-view v-if="needTagsView" />
       </div>
@@ -13,7 +13,7 @@
       </right-panel>
     </div>
     <!--  防止刷新后主题丢失  -->
-    <!-- <Theme v-show="false" ref="theme" /> -->
+    <Theme v-show="false" ref="theme" />
   </div>
 </template>
 
@@ -22,7 +22,7 @@ import RightPanel from '~/components/RightPanel/index.vue'
 import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
-// import Theme from '~/components/ThemePicker/index.vue'
+import Theme from '~/components/ThemePicker/index.vue'
 import Cookies from 'js-cookie'
 export default {
   name: 'Layout',
@@ -32,8 +32,8 @@ export default {
     RightPanel,
     Settings,
     Sidebar,
-    TagsView
-    // Theme
+    TagsView,
+    Theme
   },
   mixins: [ResizeMixin],
   computed: {
@@ -113,4 +113,6 @@ export default {
   .mobile .fixed-header {
     width: 100%;
   }
+
+
 </style>
